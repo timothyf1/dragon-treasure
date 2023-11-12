@@ -2,6 +2,7 @@
   --board-height: 15em;
   --board-width: 15em;
   --board-padding: 0.2em;
+  --board-cell-margin: 0.1em;
 }
 
 .board {
@@ -18,8 +19,8 @@
 
 .board-cell {
   background-color: #61dafb;
-  min-width: calc((var(--board-width) / 5) - (var(--board-padding)*2));
-  min-height: calc((var(--board-height) / 5) - (var(--board-padding)*2));
-  margin: var(--board-padding);
+  min-width: calc((var(--board-width) / 5) - (var(--board-cell-margin)*2));
+  min-height: calc((var(--board-height) / 5) - (var(--board-cell-margin)*2));
+  margin: var(--board-cell-margin);
   text-align: center;
 }
