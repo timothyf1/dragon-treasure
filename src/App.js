@@ -50,6 +50,16 @@ function Game() {
       if (move === "R") {
         setPlayerPosition([playerPosition[0], playerPosition[1]+1]);
       }
+
+      if (checkSamePostion(playerPosition, dragonPosition)) {
+        // TODO - Lose condition
+      }
+      if (checkSamePostion(playerPosition, treasurePosition)) {
+        // TODO - Win condition
+      }
+      if (checkSamePostion(playerPosition, trapPosition)) {
+        // TODO - Wake up the dragon
+      }
     }
   }
 
@@ -68,7 +78,17 @@ export default function App() {
 }
 
 /**
- * Function to check if the move selected is a valid move for the players current position
+ * Check to see if to objects are in the same position
+ * @param {*} positionA
+ * @param {*} positionB
+ * @returns true if position A and B are the same
+ */
+function checkSamePostion(positionA, positionB) {
+  return JSON.stringify(positionA) === JSON.stringify(positionB);
+}
+
+/**
+ * Check if the move selected is a valid move for the players current position
  * @param {*} playerPosition
  * @param {*} move
  * @returns True if the move is valid
