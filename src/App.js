@@ -17,6 +17,17 @@ function Board({ boardCells }) {
   );
 }
 
+function Control({ handleMove }) {
+  return (
+    <div className='control'>
+      <button onClick={() => handleMove("U")}>Up</button>
+      <button onClick={() => handleMove("L")}>Left</button>
+      <button onClick={() => handleMove("D")}>Down</button>
+      <button onClick={() => handleMove("R")}>Right</button>
+    </div>
+  )
+}
+
 function Game() {
   const [playerPosition, setPlayerPosition] = useState([0, 0]);
   const [trapPosition, setTrapPosition] = useState([2, 1]);
@@ -25,7 +36,18 @@ function Game() {
 
   let board = createBoardCells(playerPosition, trapPosition, null, treasurePosition);
 
-  return <Board boardCells={board} />;
+  function handleMove(move) {
+    console.log(move);
+  }
+
+  return (
+    <div className='game'>
+      <h1>Dragons Treasure</h1>
+      <p>By moving yourself aroud the grid find the dragons hidden treasure. However, be careful, if you find the dragons trap, they will wake up an start moving towards your position.</p>
+      <Board boardCells={board} />
+      <Control handleMove={handleMove} />
+    </div>
+  );
 }
 
 export default function App() {
