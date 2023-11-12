@@ -37,7 +37,20 @@ function Game() {
   let board = createBoardCells(playerPosition, trapPosition, null, treasurePosition);
 
   function handleMove(move) {
-    console.log(move);
+    if (checkValidMove(playerPosition, move)) {
+      if (move === "U") {
+        setPlayerPosition([playerPosition[0]-1, playerPosition[1]]);
+      }
+      if (move === "D") {
+        setPlayerPosition([playerPosition[0]+1, playerPosition[1]]);
+      }
+      if (move === "L") {
+        setPlayerPosition([playerPosition[0], playerPosition[1]-1]);
+      }
+      if (move === "R") {
+        setPlayerPosition([playerPosition[0], playerPosition[1]+1]);
+      }
+    }
   }
 
   return (
@@ -52,6 +65,34 @@ function Game() {
 
 export default function App() {
   return <Game />;
+}
+
+/**
+ * Function to check if the move selected is a valid move for the players current position
+ * @param {*} playerPosition
+ * @param {*} move
+ * @returns True if the move is valid
+ */
+function checkValidMove(playerPosition, move) {
+
+  // Check if move goes of the left side of the board
+  if (move === "L" && playerPosition[1] === 0) {
+    return false;
+  }
+  // Check if move goes of the top of the board
+  if (move === "U" && playerPosition[0] === 0) {
+    return false;
+  }
+  // Check if move goes of the right side of the board
+  if (move === "R" && playerPosition[1] === 4) {
+    return false;
+  }
+  // Check if move goes of the bottom of the board
+  if (move === "D" && playerPosition[0] === 4) {
+    return false;
+  }
+
+  return true;
 }
 
 /**
