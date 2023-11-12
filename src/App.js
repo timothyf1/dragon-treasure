@@ -1,48 +1,21 @@
 import logo from './logo.svg';
 import './App.css';
+import { useState } from 'react';
 
 function Cell({ value }) {
   return <div className='board-cell'>{ value }</div>;
 }
 
 function Board() {
+  const [boardCells, setBoardCells] = useState(Array(5).fill(Array(5).fill(1)));
+
   return (
     <div className='board'>
-      <div className='board-row'>
-        <Cell value={"P"} />
-        <Cell />
-        <Cell />
-        <Cell />
-        <Cell />
-      </div>
-      <div className='board-row'>
-        <Cell value={2} />
-        <Cell />
-        <Cell value={"T"} />
-        <Cell />
-        <Cell />
-      </div>
-      <div className='board-row'>
-        <Cell />
-        <Cell value={4} />
-        <Cell />
-        <Cell />
-        <Cell />
-      </div>
-      <div className='board-row'>
-        <Cell />
-        <Cell />
-        <Cell />
-        <Cell value={"L"} />
-        <Cell />
-      </div>
-      <div className='board-row'>
-        <Cell />
-        <Cell />
-        <Cell />
-        <Cell />
-        <Cell value={4} />
-      </div>
+      {boardCells.map((row, i) => (
+        <div className='board-row' key={"row-"+i}>
+          {row.map((cell, j) => (<Cell value={cell} key={"row-"+i+"col"+j} />))}
+        </div>
+      ))}
     </div>
   );
 }
