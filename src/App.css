@@ -11,7 +11,13 @@
 
 .game {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+}
+
+@media (min-width: 500px) {
+  .game {
+    flex-direction: row;
+  }
 }
 
 .board {
@@ -36,9 +42,16 @@
 
 .control {
   display: grid;
-  margin-left: 1rem;
-  width: 15rem;
-  height: 15rem;
+  margin-top: 1rem;
+  width: 12rem;
+  height: 12rem;
+}
+
+@media (min-width: 500px) {
+  .control {
+    margin-left: 1rem;
+    margin-top: 0;
+  }
 }
 
 .control > button {
