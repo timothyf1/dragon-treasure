@@ -17,13 +17,13 @@ function Board({ boardCells }) {
   );
 }
 
-function Control({ handleMove }) {
+function Control({ handleMove, gameInProgress }) {
   return (
     <div className='control'>
-      <button className="btn-up" onClick={() => handleMove("U")}>Up</button>
-      <button className="btn-left" onClick={() => handleMove("L")}>Left</button>
-      <button className="btn-down" onClick={() => handleMove("D")}>Down</button>
-      <button className="btn-right" onClick={() => handleMove("R")}>Right</button>
+      <button className="btn-up" onClick={() => handleMove("U")} disabled={!gameInProgress}>Up</button>
+      <button className="btn-left" onClick={() => handleMove("L")} disabled={!gameInProgress}>Left</button>
+      <button className="btn-down" onClick={() => handleMove("D")} disabled={!gameInProgress}>Down</button>
+      <button className="btn-right" onClick={() => handleMove("R")} disabled={!gameInProgress}>Right</button>
     </div>
   )
 }
@@ -34,6 +34,7 @@ function Game() {
   const [dragonPosition, setDragonPosition] = useState([3, 3]);
   const [treasurePosition, setTreasurePosition] = useState([4, 4]);
 
+  const [gameInProgress, setGameInProgress] = useState(true);
   const [dragonAwake, setDragonAwake] = useState(false);
   const [gameStatus, setGameStatus] = useState("The dragon is currently asleep, find its trasure without falling into its traps.");
 
@@ -52,21 +53,26 @@ function Game() {
         setPlayerPosition([playerPosition[0], playerPosition[1]+1]);
       }
 
-      // Check win condition
-      if (checkSamePostion(playerPosition, dragonPosition)) {
-        setGameStatus("You have been eaten by the dragon. Game Over.")
-      }
+    }
+  }
 
-      // Check lose condition
-      if (checkSamePostion(playerPosition, treasurePosition)) {
-        setGameStatus("You have found the dragons treasure and won the game.");
-      }
+  if (gameInProgress) {
+    // Check win condition
+    if (checkSamePostion(playerPosition, dragonPosition)) {
+      setGameInProgress(false);
+      setGameStatus("You have been eaten by the dragon. Game Over.");
+    }
 
-      // If the dragon is asleep check if the play has found a trap
-      if (!dragonAwake && checkSamePostion(playerPosition, trapPosition)) {
-        setDragonAwake(true);
-        setGameStatus("You have fallen into the dragons trap and woken him up. Find the treasure before he eats you.")
-      }
+    // Check lose condition
+    if (checkSamePostion(playerPosition, treasurePosition)) {
+      setGameInProgress(false);
+      setGameStatus("You have found the dragons treasure and won the game.");
+    }
+
+    // If the dragon is asleep check if the play has found a trap
+    if (!dragonAwake && checkSamePostion(playerPosition, trapPosition)) {
+      setDragonAwake(true);
+      setGameStatus("You have fallen into the dragons trap and woken him up. Find the treasure before he eats you.");
     }
   }
 
@@ -84,7 +90,7 @@ function Game() {
 
       <div className='game'>
         <Board boardCells={board} />
-        <Control handleMove={handleMove} />
+        <Control handleMove={handleMove} gameInProgress={gameInProgress} />
       </div>
       <p className='game-status'>{gameStatus}</p>
     </div>
