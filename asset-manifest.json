@@ -1,15 +1,15 @@
 {
   "files": {
-    "main.css": "/static/css/main.2ca84d0f.css",
-    "main.js": "/static/js/main.b1e7faa0.js",
-    "static/js/787.15684f35.chunk.js": "/static/js/787.15684f35.chunk.js",
-    "index.html": "/index.html",
-    "main.2ca84d0f.css.map": "/static/css/main.2ca84d0f.css.map",
-    "main.b1e7faa0.js.map": "/static/js/main.b1e7faa0.js.map",
-    "787.15684f35.chunk.js.map": "/static/js/787.15684f35.chunk.js.map"
+    "main.css": "https://timothyf1.github.io/dragon-treasure/static/css/main.2ca84d0f.css",
+    "main.js": "https://timothyf1.github.io/dragon-treasure/static/js/main.a64fd0dd.js",
+    "static/js/787.15684f35.chunk.js": "https://timothyf1.github.io/dragon-treasure/static/js/787.15684f35.chunk.js",
+    "index.html": "https://timothyf1.github.io/dragon-treasure/index.html",
+    "main.2ca84d0f.css.map": "https://timothyf1.github.io/dragon-treasure/static/css/main.2ca84d0f.css.map",
+    "main.a64fd0dd.js.map": "https://timothyf1.github.io/dragon-treasure/static/js/main.a64fd0dd.js.map",
+    "787.15684f35.chunk.js.map": "https://timothyf1.github.io/dragon-treasure/static/js/787.15684f35.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.2ca84d0f.css",
-    "static/js/main.b1e7faa0.js"
+    "static/js/main.a64fd0dd.js"
   ]
 }
