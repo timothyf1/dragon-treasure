@@ -20,10 +20,10 @@ function Board({ boardCells }) {
 function Control({ handleMove }) {
   return (
     <div className='control'>
-      <button onClick={() => handleMove("U")}>Up</button>
-      <button onClick={() => handleMove("L")}>Left</button>
-      <button onClick={() => handleMove("D")}>Down</button>
-      <button onClick={() => handleMove("R")}>Right</button>
+      <button className="btn-up" onClick={() => handleMove("U")}>Up</button>
+      <button className="btn-left" onClick={() => handleMove("L")}>Left</button>
+      <button className="btn-down" onClick={() => handleMove("D")}>Down</button>
+      <button className="btn-right" onClick={() => handleMove("R")}>Right</button>
     </div>
   )
 }
@@ -64,11 +64,14 @@ function Game() {
   }
 
   return (
-    <div className='game'>
+    <div className='main'>
       <h1>Dragons Treasure</h1>
       <p>By moving yourself aroud the grid find the dragons hidden treasure. However, be careful, if you find the dragons trap, they will wake up an start moving towards your position.</p>
-      <Board boardCells={board} />
-      <Control handleMove={handleMove} />
+
+      <div className='game'>
+        <Board boardCells={board} />
+        <Control handleMove={handleMove} />
+      </div>
     </div>
   );
 }
