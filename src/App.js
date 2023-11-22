@@ -34,7 +34,8 @@ function Game() {
   const [dragonPosition, setDragonPosition] = useState([3, 3]);
   const [treasurePosition, setTreasurePosition] = useState([4, 4]);
 
-  let board = createBoardCells(playerPosition, trapPosition, null, treasurePosition);
+  const [dragonAwake, setDragonAwake] = useState(false);
+  const [gameStatus, setGameStatus] = useState("The dragon is currently asleep, find its trasure without falling into its traps.");
 
   function handleMove(move) {
     if (checkValidMove(playerPosition, move)) {
@@ -51,17 +52,25 @@ function Game() {
         setPlayerPosition([playerPosition[0], playerPosition[1]+1]);
       }
 
+      // Check win condition
       if (checkSamePostion(playerPosition, dragonPosition)) {
-        // TODO - Lose condition
+        setGameStatus("You have been eaten by the dragon. Game Over.")
       }
+
+      // Check lose condition
       if (checkSamePostion(playerPosition, treasurePosition)) {
-        // TODO - Win condition
+        setGameStatus("You have found the dragons treasure and won the game.");
       }
-      if (checkSamePostion(playerPosition, trapPosition)) {
-        // TODO - Wake up the dragon
+
+      // If the dragon is asleep check if the play has found a trap
+      if (!dragonAwake && checkSamePostion(playerPosition, trapPosition)) {
+        setDragonAwake(true);
+        setGameStatus("You have fallen into the dragons trap and woken him up. Find the treasure before he eats you.")
       }
     }
   }
+
+  let board = createBoardCells(playerPosition, null, null, null);
 
   return (
     <div className='main'>
@@ -72,6 +81,7 @@ function Game() {
         <Board boardCells={board} />
         <Control handleMove={handleMove} />
       </div>
+      <p className='game-status'>{gameStatus}</p>
     </div>
   );
 }
