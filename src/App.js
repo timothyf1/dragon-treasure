@@ -70,7 +70,12 @@ function Game() {
     }
   }
 
-  let board = createBoardCells(playerPosition, null, null, null);
+  let board;
+  if (dragonAwake) {
+    board = createBoardCells(playerPosition, null, dragonPosition, null);
+  } else {
+    board = createBoardCells(playerPosition, null, null, null);
+  }
 
   return (
     <div className='main'>
