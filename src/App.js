@@ -1,32 +1,8 @@
+import Board from './Board'
+import PlayerControls from './PlayerControl';
+
 import './App.css';
 import { useState } from 'react';
-
-function Cell({ value }) {
-  return <div className='board-cell'>{ value }</div>;
-}
-
-function Board({ boardCells }) {
-  return (
-    <div className='board'>
-      {boardCells.map((row, i) => (
-        <div className='board-row' key={"row-"+i}>
-          {row.map((cell, j) => (<Cell value={cell} key={"r"+i+"c"+j} />))}
-        </div>
-      ))}
-    </div>
-  );
-}
-
-function Control({ handleMove, gameInProgress }) {
-  return (
-    <div className='control'>
-      <button className="btn-up" onClick={() => handleMove("U")} disabled={!gameInProgress}>Up</button>
-      <button className="btn-left" onClick={() => handleMove("L")} disabled={!gameInProgress}>Left</button>
-      <button className="btn-down" onClick={() => handleMove("D")} disabled={!gameInProgress}>Down</button>
-      <button className="btn-right" onClick={() => handleMove("R")} disabled={!gameInProgress}>Right</button>
-    </div>
-  )
-}
 
 function Game() {
   const [playerPosition, setPlayerPosition] = useState([0, 0]);
@@ -84,13 +60,10 @@ function Game() {
   }
 
   return (
-    <div className='main'>
-      <h1>Dragons Treasure</h1>
-      <p>By moving yourself aroud the grid find the dragons hidden treasure. However, be careful, if you find the dragons trap, they will wake up an start moving towards your position.</p>
-
+    <div>
       <div className='game'>
         <Board boardCells={board} />
-        <Control handleMove={handleMove} gameInProgress={gameInProgress} />
+        <PlayerControls handleMove={handleMove} gameInProgress={gameInProgress} />
       </div>
       <p className='game-status'>{gameStatus}</p>
     </div>
@@ -98,7 +71,13 @@ function Game() {
 }
 
 export default function App() {
-  return <Game />;
+  return (
+    <div className='main'>
+      <h1>Dragons Treasure</h1>
+      <p>By moving yourself aroud the grid find the dragons hidden treasure. However, be careful, if you find the dragons trap, they will wake up an start moving towards your position.</p>
+      <Game />
+    </div>
+  );
 }
 
 /**
