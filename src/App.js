@@ -38,23 +38,13 @@ function Game() {
     let positions = [];
     switch(option) {
       case "new-game": {
-
-        let playerPos = findNewPosition(positions);
-        positions.push(playerPos);
-        let trapPos = findNewPosition(positions);
-        positions.push(trapPos);
-        let draPos = findNewPosition(positions);
-        positions.push(draPos);
-        let treasPos = findNewPosition(positions);
-        positions.push(treasPos);
+        positions = newGameFindPositions();
         break;
       }
-
       case "restart-game": {
         positions = startPositions;
         break;
       }
-
       case "training-game": {
         positions = [[0, 0], [2, 1], [3, 3], [4, 4]];
         break;
@@ -183,6 +173,18 @@ function createBoardCells(playerPosition, trapPosition, dragonPosition, treasure
   }
 
   return boardCells;
+}
+
+/**
+ * Function to generate 4 positions which will be used in a new game
+ * @returns An array where each element is different postion
+ */
+function newGameFindPositions() {
+  let positions = [];
+  for (let i = 0; i < 4; i++) {
+    positions.push(findNewPosition(positions));
+  }
+  return positions;
 }
 
 /**
