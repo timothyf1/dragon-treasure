@@ -1,0 +1,12 @@
+.game-control {
+  margin-bottom: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+@media (min-width: 500px) {
+  .game-control {
+    flex-direction: row;
+  }
+}

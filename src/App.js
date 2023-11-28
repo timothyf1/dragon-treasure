@@ -1,4 +1,5 @@
 import Board from './Board'
+import GameControls from './GameControl';
 import PlayerControls from './PlayerControl';
 
 import './App.css';
@@ -32,6 +33,19 @@ function Game() {
     }
   }
 
+  function handleGameOptions(option) {
+    if (option === "training-game") {
+      setPlayerPosition([0, 0]);
+      setTrapPosition([2, 1]);
+      setDragonPosition([3, 3]);
+      setTreasurePosition([4, 4]);
+
+      setGameInProgress(true);
+      setDragonAwake(false);
+      setGameStatus("The dragon is currently asleep, find its trasure without falling into its traps.");
+    }
+  }
+
   if (gameInProgress) {
     // Check win condition
     if (checkSamePostion(playerPosition, dragonPosition)) {
@@ -61,6 +75,7 @@ function Game() {
 
   return (
     <div>
+      <GameControls handleGameOptions={handleGameOptions} gameInProgress={gameInProgress} />
       <div className='game'>
         <Board boardCells={board} />
         <PlayerControls handleMove={handleMove} gameInProgress={gameInProgress} />
