@@ -35,58 +35,40 @@ function Game() {
   }
 
   function handleGameOptions(option) {
+    let positions = [];
     switch(option) {
       case "new-game": {
-        let positions = [];
 
         let playerPos = findNewPosition(positions);
         positions.push(playerPos);
-        setPlayerPosition(playerPos);
-
         let trapPos = findNewPosition(positions);
         positions.push(trapPos);
-        setTrapPosition(trapPos);
-
         let draPos = findNewPosition(positions);
         positions.push(draPos);
-        setDragonPosition(draPos);
-
         let treasPos = findNewPosition(positions);
         positions.push(treasPos);
-        setTreasurePosition(treasPos);
-
-        setStartPositions(positions);
-        setGameInProgress(true);
-        setDragonAwake(false);
-        setGameStatus("The dragon is currently asleep, find its trasure without falling into its traps.");
         break;
       }
 
       case "restart-game": {
-        setPlayerPosition(startPositions[0]);
-        setTrapPosition(startPositions[1]);
-        setDragonPosition(startPositions[2]);
-        setTreasurePosition(startPositions[3]);
-
-        setGameInProgress(true);
-        setDragonAwake(false);
-        setGameStatus("The dragon is currently asleep, find its trasure without falling into its traps.");
+        positions = startPositions;
         break;
       }
 
       case "training-game": {
-        setPlayerPosition([0, 0]);
-        setTrapPosition([2, 1]);
-        setDragonPosition([3, 3]);
-        setTreasurePosition([4, 4]);
-        setStartPositions([0, 0], [2, 1], [3, 3], [4, 4]);
-
-        setGameInProgress(true);
-        setDragonAwake(false);
-        setGameStatus("The dragon is currently asleep, find its trasure without falling into its traps.");
+        positions = [[0, 0], [2, 1], [3, 3], [4, 4]];
         break;
       }
     }
+
+    setGameInProgress(true);
+    setDragonAwake(false);
+    setGameStatus("The dragon is currently asleep, find its trasure without falling into its traps.");
+    setPlayerPosition(positions[0]);
+    setTrapPosition(positions[1]);
+    setDragonPosition(positions[2]);
+    setTreasurePosition(positions[3]);
+    setStartPositions(positions);
   }
 
   if (gameInProgress) {
