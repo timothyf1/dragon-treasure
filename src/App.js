@@ -6,14 +6,14 @@ import './App.css';
 import { useState } from 'react';
 
 function Game() {
-  const [playerPosition, setPlayerPosition] = useState([0, 0]);
-  const [trapPosition, setTrapPosition] = useState([2, 1]);
-  const [dragonPosition, setDragonPosition] = useState([3, 3]);
-  const [treasurePosition, setTreasurePosition] = useState([4, 4]);
+  const [playerPosition, setPlayerPosition] = useState(null);
+  const [trapPosition, setTrapPosition] = useState(null);
+  const [dragonPosition, setDragonPosition] = useState(null);
+  const [treasurePosition, setTreasurePosition] = useState(null);
 
-  const [gameInProgress, setGameInProgress] = useState(true);
-  const [dragonAwake, setDragonAwake] = useState(false);
-  const [gameStatus, setGameStatus] = useState("The dragon is currently asleep, find its trasure without falling into its traps.");
+  const [gameInProgress, setGameInProgress] = useState(false);
+  const [dragonAwake, setDragonAwake] = useState(null);
+  const [gameStatus, setGameStatus] = useState("Please select an option above to start a game.");
 
   function handleMove(move) {
     if (checkValidMove(playerPosition, move)) {
@@ -34,15 +34,43 @@ function Game() {
   }
 
   function handleGameOptions(option) {
-    if (option === "training-game") {
-      setPlayerPosition([0, 0]);
-      setTrapPosition([2, 1]);
-      setDragonPosition([3, 3]);
-      setTreasurePosition([4, 4]);
+    switch(option) {
+      case "new-game": {
+        let positions = [];
 
-      setGameInProgress(true);
-      setDragonAwake(false);
-      setGameStatus("The dragon is currently asleep, find its trasure without falling into its traps.");
+        let playerPos = findNewPosition(positions);
+        positions.push(playerPos);
+        setPlayerPosition(playerPos);
+
+        let trapPos = findNewPosition(positions);
+        positions.push(trapPos);
+        setTrapPosition(trapPos);
+
+        let draPos = findNewPosition(positions);
+        positions.push(draPos);
+        setDragonPosition(draPos);
+
+        let treasPos = findNewPosition(positions);
+        positions.push(treasPos);
+        setTreasurePosition(treasPos);
+
+        setGameInProgress(true);
+        setDragonAwake(false);
+        setGameStatus("The dragon is currently asleep, find its trasure without falling into its traps.");
+        break;
+      }
+
+      case "training-game": {
+        setPlayerPosition([0, 0]);
+        setTrapPosition([2, 1]);
+        setDragonPosition([3, 3]);
+        setTreasurePosition([4, 4]);
+
+        setGameInProgress(true);
+        setDragonAwake(false);
+        setGameStatus("The dragon is currently asleep, find its trasure without falling into its traps.");
+        break;
+      }
     }
   }
 
@@ -75,7 +103,7 @@ function Game() {
 
   return (
     <div>
-      <GameControls handleGameOptions={handleGameOptions} gameInProgress={gameInProgress} />
+      <GameControls handleGameOptions={handleGameOptions} />
       <div className='game'>
         <Board boardCells={board} />
         <PlayerControls handleMove={handleMove} gameInProgress={gameInProgress} />
@@ -158,4 +186,29 @@ function createBoardCells(playerPosition, trapPosition, dragonPosition, treasure
   }
 
   return boardCells;
+}
+
+/**
+ * Find a new postion for an object in the game
+ * @param {*} existingPositions An array containg elements which are the current positions of objects
+ * @returns An array with 2 elements to describe the new location.
+ */
+function findNewPosition(existingPositions) {
+  let candidatePos;
+  do {
+    candidatePos = [Math.floor(Math.random() * 5), Math.floor(Math.random() * 5)];
+  } while (positionUsed(existingPositions, candidatePos))
+  return candidatePos;
+}
+
+/**
+ * Find out if an candidate position is already used in a Array of the used positions
+ * @param {*} existingPositions An array containing the postions already used
+ * @param {*} candidatePos The postion we are checking to see if already been used
+ * @returns Boolean ture if the position has already been used
+ */
+function positionUsed(existingPositions, candidatePos) {
+  return existingPositions.reduce((currentStatus, element) => {
+    return currentStatus || checkSamePostion(candidatePos, element);
+  }, false);
 }

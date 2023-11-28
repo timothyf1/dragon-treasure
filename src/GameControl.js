@@ -1,6 +1,12 @@
 import './GameControl.css'
 
-export default function GameControls({ handleGameOptions, gameInProgress }) {
+/**
+ * The user game control buttons to start a new game
+ * @param handleGameOptions
+ * @param gameInProgress
+ * @returns JSX element for the game controls.
+ */
+export default function GameControls({ handleGameOptions }) {
   return (
     <div className="game-control">
       <button className="game-new-game" onClick={() => handleGameOptions("new-game")}>New Game</button>
