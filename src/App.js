@@ -10,6 +10,7 @@ function Game() {
   const [trapPosition, setTrapPosition] = useState(null);
   const [dragonPosition, setDragonPosition] = useState(null);
   const [treasurePosition, setTreasurePosition] = useState(null);
+  const [startPositions, setStartPositions] = useState(null);
 
   const [gameInProgress, setGameInProgress] = useState(false);
   const [dragonAwake, setDragonAwake] = useState(null);
@@ -54,6 +55,19 @@ function Game() {
         positions.push(treasPos);
         setTreasurePosition(treasPos);
 
+        setStartPositions(positions);
+        setGameInProgress(true);
+        setDragonAwake(false);
+        setGameStatus("The dragon is currently asleep, find its trasure without falling into its traps.");
+        break;
+      }
+
+      case "restart-game": {
+        setPlayerPosition(startPositions[0]);
+        setTrapPosition(startPositions[1]);
+        setDragonPosition(startPositions[2]);
+        setTreasurePosition(startPositions[3]);
+
         setGameInProgress(true);
         setDragonAwake(false);
         setGameStatus("The dragon is currently asleep, find its trasure without falling into its traps.");
@@ -65,6 +79,7 @@ function Game() {
         setTrapPosition([2, 1]);
         setDragonPosition([3, 3]);
         setTreasurePosition([4, 4]);
+        setStartPositions([0, 0], [2, 1], [3, 3], [4, 4]);
 
         setGameInProgress(true);
         setDragonAwake(false);
