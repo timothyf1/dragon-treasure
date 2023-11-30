@@ -1,4 +1,4 @@
-import Board from './Board'
+import Board from './Board';
 import GameControls from './GameControl';
 import PlayerControls from './PlayerControl';
 
@@ -15,6 +15,7 @@ function Game() {
   const [gameInProgress, setGameInProgress] = useState(false);
   const [dragonAwake, setDragonAwake] = useState(null);
   const [gameStatus, setGameStatus] = useState("Please select an option above to start a game.");
+  const [gameMoveStatus, setGameMoveStatus] = useState("");
 
   /**
    * Check if the player has lost the game if eaten by the dragon.
@@ -71,6 +72,8 @@ function Game() {
    */
   function handleMove(move) {
     if (checkValidMove(playerPosition, move)) {
+      setGameMoveStatus("");
+
       // Find the players new location
       let newPlayerPos;
       if (move === "U") {
@@ -109,6 +112,8 @@ function Game() {
         checkTrap(newPlayerPos);
       }
 
+    } else {
+      setGameMoveStatus("The seleted move is invalid. Please select a move which stays within the grid.");
     }
   }
 
@@ -158,6 +163,7 @@ function Game() {
         <Board boardCells={board} />
         <PlayerControls handleMove={handleMove} gameInProgress={gameInProgress} />
       </div>
+      <p className='game-move-status'>{gameMoveStatus}</p>
       <p className='game-status'>{gameStatus}</p>
     </div>
   );
