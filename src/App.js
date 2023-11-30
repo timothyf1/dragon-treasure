@@ -16,24 +16,106 @@ function Game() {
   const [dragonAwake, setDragonAwake] = useState(null);
   const [gameStatus, setGameStatus] = useState("Please select an option above to start a game.");
 
+  /**
+   * Check if the player has lost the game if eaten by the dragon.
+   * Ends the game and displays lose message.
+   * @param {*} playerPosition
+   * @param {*} dragonPosition
+   * @returns true if the player has lost the game
+   */
+  function checkLose(playerPosition, dragonPosition) {
+    if (checkSamePostion(playerPosition, dragonPosition)) {
+      setGameInProgress(false);
+      setGameStatus("You have been eaten by the dragon. Game Over.");
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Check if the the player has won the game by finding the treasure.
+   * Ends the game and displays win message.
+   * @param {*} playerPosition
+   * @returns true if the player has won the game
+   */
+  function checkWin(playerPosition) {
+    if (checkSamePostion(playerPosition, treasurePosition)) {
+      setGameInProgress(false);
+      setGameStatus("You have found the dragons treasure and won the game.");
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Check to see if the player has fallen into the dragons trap.
+   * Displays message that the dragon has been woken.
+   * @param {*} playerPosition
+   * @returns true if the player has fallen into the dragons trap
+   */
+  function checkTrap(playerPosition) {
+    if (!dragonAwake && checkSamePostion(playerPosition, trapPosition)) {
+      setDragonAwake(true);
+      setGameStatus("You have fallen into the dragons trap and woken him up. Find the treasure before he eats you.");
+      return true;
+    }
+    return false;
+  }
+
+  /**
+   * Checks to see if the player has selected a valid move,
+   * then moves the player if valid
+   * checks the win and lose conditions of the game
+   * moves the dragon if awake
+   * @param {*} move
+   */
   function handleMove(move) {
     if (checkValidMove(playerPosition, move)) {
+      // Find the players new location
+      let newPlayerPos;
       if (move === "U") {
-        setPlayerPosition([playerPosition[0]-1, playerPosition[1]]);
+        newPlayerPos = [playerPosition[0]-1, playerPosition[1]];
       }
       if (move === "D") {
-        setPlayerPosition([playerPosition[0]+1, playerPosition[1]]);
+        newPlayerPos = [playerPosition[0]+1, playerPosition[1]];
       }
       if (move === "L") {
-        setPlayerPosition([playerPosition[0], playerPosition[1]-1]);
+        newPlayerPos = [playerPosition[0], playerPosition[1]-1];
       }
       if (move === "R") {
-        setPlayerPosition([playerPosition[0], playerPosition[1]+1]);
+        newPlayerPos = [playerPosition[0], playerPosition[1]+1];
+      }
+      setPlayerPosition(newPlayerPos);
+
+      // Check Win and lose conditions for the game
+      if (checkWin(newPlayerPos)) {
+        return;
+      }
+      if (checkLose(newPlayerPos, dragonPosition)) {
+        return;
+      }
+
+      if (dragonAwake) {
+        // As the dragon is awake the dragon moves towards the player
+        let newDragonPos = newDragonPosition(dragonPosition, playerPosition);
+        setDragonPosition(newDragonPos);
+
+        // Once the dragon has moved check again to see if the dragon has eaten the player
+        if (checkLose(newPlayerPos, newDragonPos)) {
+          return;
+        }
+      } else {
+        // Check if the player has fallen into a trap
+        checkTrap(newPlayerPos);
       }
 
     }
   }
 
+  /**
+   * Handles the game options buttons
+   * @param {*} option
+   */
   function handleGameOptions(option) {
     let positions = [];
     switch(option) {
@@ -61,27 +143,8 @@ function Game() {
     setStartPositions(positions);
   }
 
-  if (gameInProgress) {
-    // Check win condition
-    if (checkSamePostion(playerPosition, dragonPosition)) {
-      setGameInProgress(false);
-      setGameStatus("You have been eaten by the dragon. Game Over.");
-    }
-
-    // Check lose condition
-    if (checkSamePostion(playerPosition, treasurePosition)) {
-      setGameInProgress(false);
-      setGameStatus("You have found the dragons treasure and won the game.");
-    }
-
-    // If the dragon is asleep check if the play has found a trap
-    if (!dragonAwake && checkSamePostion(playerPosition, trapPosition)) {
-      setDragonAwake(true);
-      setGameStatus("You have fallen into the dragons trap and woken him up. Find the treasure before he eats you.");
-    }
-  }
-
   let board;
+  // If the dragon is awake then he is shown on the board
   if (dragonAwake) {
     board = createBoardCells(playerPosition, null, dragonPosition, null);
   } else {
@@ -210,4 +273,28 @@ function positionUsed(existingPositions, candidatePos) {
   return existingPositions.reduce((currentStatus, element) => {
     return currentStatus || checkSamePostion(candidatePos, element);
   }, false);
+}
+
+/**
+ * Calculates the new location for the dragon to move when awake
+ * @param {*} dragonPosition The current position of the dragon
+ * @param {*} playerPosition The current position of the player
+ * @returns The new position of the dragon
+ */
+function newDragonPosition(dragonPosition, playerPosition) {
+  let dirHor = Math.abs(playerPosition[0] - dragonPosition[0]) < Math.abs(playerPosition[1] - dragonPosition[1]) ? true : false;
+
+  if (dirHor) {
+    if (playerPosition[1] < dragonPosition[1]) {
+      return [dragonPosition[0], dragonPosition[1] - 1];
+    } else {
+      return [dragonPosition[0], dragonPosition[1] + 1];
+    }
+  } else {
+    if (playerPosition[0] < dragonPosition[0]) {
+      return [dragonPosition[0] - 1, dragonPosition[1]];
+    } else {
+      return [dragonPosition[0] + 1, dragonPosition[1]];
+    }
+  }
 }
