@@ -143,6 +143,7 @@ function Game() {
     setGameInProgress(true);
     setDragonAwake(false);
     setGameStatus("The dragon is currently asleep, find its trasure without falling into its traps.");
+    setGameMoveStatus("");
     setPlayerPosition(positions[0]);
     setTrapPosition(positions[1]);
     setDragonPosition(positions[2]);
