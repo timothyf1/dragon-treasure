@@ -1,6 +1,6 @@
 .board {
-  width: var(--board-width);
-  height: var(--board-height);
+  /* width: var(--board-width);
+  height: var(--board/height); */
   background-color: #282c34;
   padding: var(--board-padding);
 }
@@ -12,8 +12,8 @@
 
 .board-cell {
   background-color: #61dafb;
-  min-width: calc((var(--board-width) / 5) - (var(--board-cell-margin)*2));
-  min-height: calc((var(--board-height) / 5) - (var(--board-cell-margin)*2));
+  min-width: calc(var(--board-cell-size) - var(--board-cell-margin)*2);
+  min-height: calc(var(--board-cell-size) - var(--board-cell-margin)*2);
   margin: var(--board-cell-margin);
   text-align: center;
 }

@@ -1,7 +1,8 @@
 * {
-  --board-height: 15em;
-  --board-width: 15em;
+  /* --board-height: 15em;
+  --board-width: 15em; */
   --board-padding: 0.2em;
+  --board-cell-size: 2.5rem;
   --board-cell-margin: 0.1em;
 }
 

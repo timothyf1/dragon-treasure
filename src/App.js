@@ -17,6 +17,8 @@ function Game() {
   const [gameStatus, setGameStatus] = useState("Please select an option above to start a game.");
   const [gameMoveStatus, setGameMoveStatus] = useState("");
 
+  const boradSize = [7, 7];
+
   /**
    * Check if the player has lost the game if eaten by the dragon.
    * Ends the game and displays lose message.
@@ -71,7 +73,7 @@ function Game() {
    * @param {*} move
    */
   function handleMove(move) {
-    if (checkValidMove(playerPosition, move)) {
+    if (checkValidMove(boradSize, playerPosition, move)) {
       setGameMoveStatus("");
 
       // Find the players new location
@@ -125,7 +127,7 @@ function Game() {
     let positions = [];
     switch(option) {
       case "new-game": {
-        positions = newGameFindPositions();
+        positions = newGameFindPositions(boradSize);
         break;
       }
       case "restart-game": {
@@ -151,20 +153,20 @@ function Game() {
   let board;
   // If the dragon is awake then he is shown on the board
   if (dragonAwake) {
-    board = createBoardCells(playerPosition, null, dragonPosition, null);
+    board = createBoardCells(boradSize, playerPosition, null, dragonPosition, null);
   } else {
-    board = createBoardCells(playerPosition, null, null, null);
+    board = createBoardCells(boradSize, playerPosition, null, null, null);
   }
 
   return (
     <div>
       <GameControls handleGameOptions={handleGameOptions} />
+      <p className='game-status'>{gameStatus}</p>
+      <p className='game-move-status'>{gameMoveStatus}</p>
       <div className='game'>
         <Board boardCells={board} />
         <PlayerControls handleMove={handleMove} gameInProgress={gameInProgress} />
       </div>
-      <p className='game-move-status'>{gameMoveStatus}</p>
-      <p className='game-status'>{gameStatus}</p>
     </div>
   );
 }
@@ -195,7 +197,7 @@ function checkSamePostion(positionA, positionB) {
  * @param {*} move
  * @returns True if the move is valid
  */
-function checkValidMove(playerPosition, move) {
+function checkValidMove(boradSize, playerPosition, move) {
 
   // Check if move goes of the left side of the board
   if (move === "L" && playerPosition[1] === 0) {
@@ -206,11 +208,11 @@ function checkValidMove(playerPosition, move) {
     return false;
   }
   // Check if move goes of the right side of the board
-  if (move === "R" && playerPosition[1] === 4) {
+  if (move === "R" && playerPosition[1] === boradSize[1]-1) {
     return false;
   }
   // Check if move goes of the bottom of the board
-  if (move === "D" && playerPosition[0] === 4) {
+  if (move === "D" && playerPosition[0] === boradSize[0]-1) {
     return false;
   }
 
@@ -225,8 +227,8 @@ function checkValidMove(playerPosition, move) {
  * @param {*} treasurePosition
  * @returns A array which where each element is array for each row of the board.
  */
-function createBoardCells(playerPosition, trapPosition, dragonPosition, treasurePosition) {
-  let boardCells = Array.from(Array(5), () => new Array(5).fill(null));
+function createBoardCells(boradSize, playerPosition, trapPosition, dragonPosition, treasurePosition) {
+  let boardCells = Array.from(Array(boradSize[0]), () => new Array(boradSize[1]).fill(null));
 
   if (playerPosition) {
     boardCells[playerPosition[0]][playerPosition[1]] = "P";
@@ -248,10 +250,10 @@ function createBoardCells(playerPosition, trapPosition, dragonPosition, treasure
  * Function to generate 4 positions which will be used in a new game
  * @returns An array where each element is different postion
  */
-function newGameFindPositions() {
+function newGameFindPositions(boradSize) {
   let positions = [];
   for (let i = 0; i < 4; i++) {
-    positions.push(findNewPosition(positions));
+    positions.push(findNewPosition(boradSize, positions));
   }
   return positions;
 }
@@ -261,10 +263,10 @@ function newGameFindPositions() {
  * @param {*} existingPositions An array containg elements which are the current positions of objects
  * @returns An array with 2 elements to describe the new location.
  */
-function findNewPosition(existingPositions) {
+function findNewPosition(boradSize, existingPositions) {
   let candidatePos;
   do {
-    candidatePos = [Math.floor(Math.random() * 5), Math.floor(Math.random() * 5)];
+    candidatePos = [Math.floor(Math.random() * boradSize[0]), Math.floor(Math.random() * boradSize[1])];
   } while (positionUsed(existingPositions, candidatePos))
   return candidatePos;
 }
