@@ -132,6 +132,7 @@ function Game() {
     switch(option) {
       case "new-game": {
         positions = newGameFindPositions(gameNextBoardSize);
+        setGameCurrentBoardSize(gameNextBoardSize);
         break;
       }
       case "restart-game": {
@@ -140,6 +141,7 @@ function Game() {
       }
       case "training-game": {
         positions = [[0, 0], [2, 1], [3, 3], [4, 4]];
+        setGameCurrentBoardSize(smallBoardSize);
         break;
       }
     }
@@ -148,7 +150,6 @@ function Game() {
     setDragonAwake(false);
     setGameStatus("The dragon is currently asleep, find its trasure without falling into its traps.");
     setGameMoveStatus("");
-    setGameCurrentBoardSize(gameNextBoardSize);
     setPlayerPosition(positions[0]);
     setTrapPosition(positions[1]);
     setDragonPosition(positions[2]);
