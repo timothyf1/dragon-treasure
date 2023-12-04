@@ -1,4 +1,4 @@
-.game-control {
+.game-options {
   margin-bottom: 1rem;
   display: flex;
   flex-direction: column;
@@ -6,7 +6,7 @@
 }
 
 @media (min-width: 500px) {
-  .game-control {
+  .game-options {
     flex-direction: row;
   }
 }

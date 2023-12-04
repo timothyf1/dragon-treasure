@@ -6,6 +6,10 @@ import './App.css';
 import { useState } from 'react';
 
 function Game() {
+  const smallBoardSize = [5, 5];
+  const mediumBoardSize = [7, 7];
+  const largeBoardSize = [9, 9];
+
   const [playerPosition, setPlayerPosition] = useState(null);
   const [trapPosition, setTrapPosition] = useState(null);
   const [dragonPosition, setDragonPosition] = useState(null);
@@ -16,8 +20,8 @@ function Game() {
   const [dragonAwake, setDragonAwake] = useState(null);
   const [gameStatus, setGameStatus] = useState("Please select an option above to start a game.");
   const [gameMoveStatus, setGameMoveStatus] = useState("");
-
-  const boradSize = [7, 7];
+  const [gameNextBoardSize, setGameNextBoardSize] = useState(smallBoardSize);
+  const [gamecurrentBoardSize, setGameCurrentBoardSize] = useState(smallBoardSize);
 
   /**
    * Check if the player has lost the game if eaten by the dragon.
@@ -73,7 +77,7 @@ function Game() {
    * @param {*} move
    */
   function handleMove(move) {
-    if (checkValidMove(boradSize, playerPosition, move)) {
+    if (checkValidMove(gamecurrentBoardSize, playerPosition, move)) {
       setGameMoveStatus("");
 
       // Find the players new location
@@ -127,7 +131,7 @@ function Game() {
     let positions = [];
     switch(option) {
       case "new-game": {
-        positions = newGameFindPositions(boradSize);
+        positions = newGameFindPositions(gameNextBoardSize);
         break;
       }
       case "restart-game": {
@@ -144,6 +148,7 @@ function Game() {
     setDragonAwake(false);
     setGameStatus("The dragon is currently asleep, find its trasure without falling into its traps.");
     setGameMoveStatus("");
+    setGameCurrentBoardSize(gameNextBoardSize);
     setPlayerPosition(positions[0]);
     setTrapPosition(positions[1]);
     setDragonPosition(positions[2]);
@@ -151,17 +156,38 @@ function Game() {
     setStartPositions(positions);
   }
 
+  /**
+   * Handle the change in board size for the next game
+   * @param {*} option
+   */
+  function handleBoardSize(option) {
+    switch(option) {
+      case "small": {
+        setGameNextBoardSize(smallBoardSize);
+        break;
+      }
+      case "medium": {
+        setGameNextBoardSize(mediumBoardSize);
+        break;
+      }
+      case "large": {
+        setGameNextBoardSize(largeBoardSize);
+        break;
+      }
+    }
+  }
+
   let board;
   // If the dragon is awake then he is shown on the board
   if (dragonAwake) {
-    board = createBoardCells(boradSize, playerPosition, null, dragonPosition, null);
+    board = createBoardCells(gamecurrentBoardSize, playerPosition, null, dragonPosition, null);
   } else {
-    board = createBoardCells(boradSize, playerPosition, null, null, null);
+    board = createBoardCells(gamecurrentBoardSize, playerPosition, null, null, null);
   }
 
   return (
     <div>
-      <GameControls handleGameOptions={handleGameOptions} />
+      <GameControls handleGameOptions={handleGameOptions} handleBoardSize={handleBoardSize} />
       <p className='game-status'>{gameStatus}</p>
       <p className='game-move-status'>{gameMoveStatus}</p>
       <div className='game'>
