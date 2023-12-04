@@ -11,9 +11,9 @@ export default function GameControls({ handleGameOptions, handleBoardSize }) {
     <div className="game-control">
       <p>Select the board size for next game:</p>
       <div className="game-options">
-        <input type="radio" value="Small" name="size" onChange={() => handleBoardSize("small")} />Small
-        <input type="radio" value="Medium" name="size" onChange={() => handleBoardSize("medium")} />Medium
-        <input type="radio" value="Large" name="size" onChange={() => handleBoardSize("large")} />Large
+        <label><input type="radio" value="Small" name="size" onChange={() => handleBoardSize("small")} />Small</label>
+        <label><input type="radio" value="Medium" name="size" onChange={() => handleBoardSize("medium")} />Medium</label>
+        <label><input type="radio" value="Large" name="size" onChange={() => handleBoardSize("large")} />Large</label>
       </div>
       <div className="game-options">
         <button className="game-new-game" onClick={() => handleGameOptions("new-game")}>New Game</button>
